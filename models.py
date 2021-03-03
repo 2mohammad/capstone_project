@@ -18,27 +18,49 @@ class User(db.Model):
     password = db.Column(db.Text, nullable=False)
 
     @classmethod
-    def register(cls, username, pwd):
-        hashed = bcrypt.generate_password_hash(pwd)
-        hashed_utf8 = hashed.decode("utf8")
+    def signup(cls, username, password):
+        """Sign up user.
 
-        return cls(username=username, password=hashed_utf8)
+        Hashes password and adds user to system.
+        """
 
+        hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
+
+        user = User(
+            username=username,
+            password=hashed_pwd,
+        )
+
+        db.session.add(user)
+        return user
 
     @classmethod
-    def authenticate(cls, username, pwd):
-        u = User.query.filter_by(username=username).first()
+    def authenticate(cls, username, password):
+        """Find user with `username` and `password`.
 
-        if u and bcrypt.check_password_hash(u.password, pwd):
-            return u
-        else:
-            return False
+        This is a class method (call it on the class, not an individual user.)
+        It searches for a user whose password hash matches this password
+        and, if it finds such a user, returns that user object.
+
+        If can't find matching user (or if password is wrong), returns False.
+        """
+
+        user = cls.query.filter_by(username=username).first()
+
+        if user:
+            is_auth = bcrypt.check_password_hash(user.password, password)
+            if is_auth:
+                return user
+
+        return False
+
             
-class Tweet(db.Model):
-    __tablename__ = 'tweets'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    text = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
-    user = db.relationship('User', backref="tweets")
+class Saves(db.Model):
+    __tablename__ = 'saves'
+    id = db.Column(db.Text, primary_key=True, autoincrement=False)
+    name = db.Column(db.Text, nullable=False)
+    #user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    snippet = db.Column(db.Text, nullable=False)
+    image_url = db.Column(db.Text)
+    #user = db.relationship('User', backref="tweets")
 

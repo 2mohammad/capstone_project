@@ -1,0 +1,38 @@
+{% block content %}
+{% for poi in pois %}
+<form id= {{poi["id"]}} method="POST">
+    <div class="container d-flex align-items-center flex-column">
+    <div class="col-md-6 col-lg-8 mb-5">
+<div class="card border-primary mb-6" style="width: large;">
+        <!-- Masthead Avatar Image-->
+        <!-- Masthead Heading-->
+        <!-- Icon Divider-->
+
+        
+    <div class="d-grid gap-3">
+    <div class="p-2 card-body">
+    {% if poi["images"] %}
+    {%set image = poi["images"][0]%}
+    <img name="image-url" src={{image["source_url"]}} class="img-thumbnail">
+{% endif %}
+    <div class="m-2">
+      <h5 name="title" class="card-title">{{poi["name"]}}</h5>
+      {% if poi["snippet"] %}
+        <p name="snippet" class="card-text">{{poi["snippet"]}}</p>
+        {% endif %}
+        <div class="d-grid gap-3 hot-container">
+            <a id="" class="btn btn-blue find-more">Find More!</a>
+            <a id="save" name={{poi["id"]}} class="btn btn-red save-card">Save!</a>
+        </div>
+    </div>
+    </div>
+  </div>
+  </div>
+</div>
+    </div>
+</div>
+</form>
+
+
+{% endfor %}
+{% endblock %}

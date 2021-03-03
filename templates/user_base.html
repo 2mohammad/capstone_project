@@ -53,16 +53,15 @@
                 </div>
                 <!-- Masthead Subheading-->
                 <div class="hot-container">
-                <input id="searchpoi" type="text" class="form-control" placeholder="Find me a place in..">
+                    {% block content%}{% endblock %}
                 </div>
-                        <div class="hot-container">
+                        <!-- <div class="hot-container">
                                 <a id="submitpoi" class="btn btn-blue">Search</a>
-                        </div>
-            </div>
+                        </div> -->
+            <!-- </div> -->
         </header>
         <section class="page-section portfolio" id="portfolio">
         <div class="hot-container">
-            {% block content%}{% endblock %}
         </div>
         </section>
     <!-- Axios, jquery, Popper,js, Bootstrap.js, app.js-->
@@ -73,7 +72,6 @@
 
 
 </body>
-    <script src="static/app.js"></script>
 
 </html>
 
